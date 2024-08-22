@@ -31,4 +31,8 @@ public class LoginController {
         return "result";
     }
 
+    @GetMapping("/kakaoLogin")
+    public String kakaoLogin(Model model){
+        return "kakaoLogin";
+    }
 }
