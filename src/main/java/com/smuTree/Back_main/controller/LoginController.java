@@ -27,8 +27,8 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @Autowired
-    private KakaoUserService kakaoUserService;
+//    @Autowired
+//    private KakaoUserService kakaoUserService;
 
     @Value("${kakao.client_id}")
     private String kakaoClientId;
