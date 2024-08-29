@@ -4,6 +4,7 @@ import com.smuTree.Back_main.entity.Login;
 import com.smuTree.Back_main.entity.Provider;
 import com.smuTree.Back_main.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,16 @@ public class LoginController {
         return "result";
     }
 
+    @Value("${kakao.client_id}")
+    private String kakaoClientId;
+
+    @Value("${kakao.redirect.uri}")
+    private String redirectUri;
+
     @GetMapping("/kakaoLogin")
     public String kakaoLogin(Model model){
+        model.addAttribute("kakaoClientId", kakaoClientId);
+        model.addAttribute("redirectUri", redirectUri);
         return "kakaoLogin";
     }
 }
