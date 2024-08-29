@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-
 @Controller
 public class LoginController {
 
@@ -30,19 +29,7 @@ public class LoginController {
     @Value("${kakao.redirect.uri}")
     private String redirectUri;
 
-    @GetMapping("/loginForm")
-    public String showLoginForm(Model model) {
-        List<Provider> providers = Arrays.asList(Provider.values());
-        model.addAttribute("providers", providers);
-        return "loginForm";
-    }
-
-    @PostMapping("/loginForm")
-    public String submitLogin(@ModelAttribute Login login, Model model) {
-        loginService.saveLogin(login);
-        model.addAttribute("login", login);
-        return "result";
-    }
+    // ... 다른 메서드들은 그대로 유지 ...
 
     @GetMapping("/kakaoLogin")
     public String kakaoLogin(Model model) {
