@@ -69,10 +69,10 @@ public class LoginController {
             log.info("Received Kakao authorization code: {}", code);
             log.info("Retrieved access token: {}", accessToken);
 
-            // 사용자 정보 요청
-            KakaoUserInfo userInfo = getKakaoUserInfo(accessToken);
-
-            log.info("Kakao user info: {}", userInfo);
+//            // 사용자 정보 요청
+//            KakaoUserInfo userInfo = getKakaoUserInfo(accessToken);
+//
+//            log.info("Kakao user info: {}", userInfo);
 
             // DB에 저장 // kakaoUserService.java 안 만들어서 우선 주석처리
             // TODO
@@ -115,62 +115,62 @@ public class LoginController {
             throw new RuntimeException("Failed to retrieve Kakao access token");
         }
     }
-    private KakaoUserInfo getKakaoUserInfo(String accessToken) {
-        String userInfoUrl = "https://kapi.kakao.com/v2/user/me";
+//    private KakaoUserInfo getKakaoUserInfo(String accessToken) {
+//        String userInfoUrl = "https://kapi.kakao.com/v2/user/me";
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Authorization", "Bearer " + accessToken);
+//        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+//
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
+//
+//        ResponseEntity<KakaoUserInfo> response = restTemplate.exchange(
+//                userInfoUrl,
+//                HttpMethod.GET,
+//                entity,
+//                KakaoUserInfo.class
+//        );
+//
+//        return response.getBody();
+//    }
 
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + accessToken);
-        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<KakaoUserInfo> response = restTemplate.exchange(
-                userInfoUrl,
-                HttpMethod.GET,
-                entity,
-                KakaoUserInfo.class
-        );
-
-        return response.getBody();
-    }
-
-    @Getter
-    @Setter
-    private static class KakaoUserInfo {
-        private Long id;
-        private String connected_at;
-        private Properties properties;
-        private KakaoAccount kakao_account;
-
-        @Getter
-        @Setter
-        private static class Properties {
-            private String nickname;
-        }
-
-        @Getter
-        @Setter
-        private static class KakaoAccount {
-            private Boolean profile_nickname_needs_agreement;
-            private Boolean profile_image_needs_agreement;
-            private Profile profile;
-            private Boolean has_email;
-            private Boolean email_needs_agreement;
-            private Boolean is_email_valid;
-            private Boolean is_email_verified;
-            private String email;
-
-            @Getter
-            @Setter
-            private static class Profile {
-                private String nickname;
-                private String thumbnail_image_url;
-                private String profile_image_url;
-                private Boolean is_default_image;
-            }
-        }
-    }
+//    @Getter
+//    @Setter
+//    private static class KakaoUserInfo {
+//        private Long id;
+//        private String connected_at;
+//        private Properties properties;
+//        private KakaoAccount kakao_account;
+//
+//        @Getter
+//        @Setter
+//        private static class Properties {
+//            private String nickname;
+//        }
+//
+//        @Getter
+//        @Setter
+//        private static class KakaoAccount {
+//            private Boolean profile_nickname_needs_agreement;
+//            private Boolean profile_image_needs_agreement;
+//            private Profile profile;
+//            private Boolean has_email;
+//            private Boolean email_needs_agreement;
+//            private Boolean is_email_valid;
+//            private Boolean is_email_verified;
+//            private String email;
+//
+//            @Getter
+//            @Setter
+//            private static class Profile {
+//                private String nickname;
+//                private String thumbnail_image_url;
+//                private String profile_image_url;
+//                private Boolean is_default_image;
+//            }
+//        }
+//    }
 
     @Getter
     @Setter
@@ -179,7 +179,7 @@ public class LoginController {
         private String token_type;
         private String refresh_token;
         private int expires_in;
-        private String scope;
+//        private String scope;
         private int refresh_token_expires_in;
     }
 }
