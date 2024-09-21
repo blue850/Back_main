@@ -1,5 +1,6 @@
 package com.smuTree.Back_main.service;
 
+import com.smuTree.Back_main.entity.Login;
 import com.smuTree.Back_main.repository.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
