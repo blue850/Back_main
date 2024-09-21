@@ -26,6 +26,4 @@ public class User {
     @Column
     private Timestamp highscore_time;
 
-    @OneToMany
-    private List<Login> logins;
 }

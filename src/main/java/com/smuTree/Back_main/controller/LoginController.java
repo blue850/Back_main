@@ -1,7 +1,5 @@
 package com.smuTree.Back_main.controller;
 
-import com.smuTree.Back_main.entity.Login;
-import com.smuTree.Back_main.entity.Provider;
 import com.smuTree.Back_main.service.LoginService;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +13,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -36,19 +30,19 @@ public class LoginController {
     @Value("${kakao.redirect.uri}")
     private String redirectUri;
 
-    @GetMapping("/loginForm")
-    public String showLoginForm(Model model) {
-        List<Provider> providers = Arrays.asList(Provider.values());
-        model.addAttribute("providers", providers);
-        return "loginForm";
-    }
-
-    @PostMapping("/loginForm")
-    public String submitLogin(@ModelAttribute Login login, Model model) {
-        loginService.saveLogin(login);
-        model.addAttribute("login", login);
-        return "result";
-    }
+//    @GetMapping("/loginForm")
+//    public String showLoginForm(Model model) {
+//        List<Provider> providers = Arrays.asList(Provider.values());
+//        model.addAttribute("providers", providers);
+//        return "loginForm";
+//    }
+//
+//    @PostMapping("/loginForm")
+//    public String submitLogin(@ModelAttribute Login login, Model model) {
+//        loginService.saveLogin(login);
+//        model.addAttribute("login", login);
+//        return "result";
+//    }
 
     @GetMapping("/kakaoLogin")
     public String kakaoLogin(Model model) {
@@ -78,14 +72,14 @@ public class LoginController {
             // TODO
 //            kakaoUserService.saveKakaoUserInfo(kakaoUserInfo);
 
-            return "hello"; // 성공 페이지로 리다이렉트
+            return "hello"; // 성공 페이지 hello.html 리다이렉트
         } catch (Exception e) {
             log.error("Error during Kakao login process", e);
             return "error"; // 에러 페이지로 리다이렉트
         }
     }
 
-    private String getKakaoAccessToken(String code) {
+    private String getKakaoAccessToken(String code) { //post로 요청 보내서 토큰 받는 메소드
         String accessTokenUrl = "https://kauth.kakao.com/oauth/token";
 
         RestTemplate restTemplate = new RestTemplate();
@@ -108,13 +102,32 @@ public class LoginController {
         );
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            log.info("Successfully retrieved Kakao access token");
-            return Objects.requireNonNull(response.getBody()).getAccess_token();
+            // KakaoTokenResponse 객체를 반환
+            KakaoTokenResponse tokenResponse = response.getBody();
+            log.info("Successfully retrieved Kakao tokens: {}", tokenResponse);  // 전체 객체 출력
+
+            // 각각의 필드를 출력
+            log.info("Token Type: {}", tokenResponse.getToken_type());
+            log.info("Access Token: {}", tokenResponse.getAccess_token());
+            log.info("Expires In: {}", tokenResponse.getExpires_in());
+            log.info("Refresh Token: {}", tokenResponse.getRefresh_token());
+            log.info("Refresh Token Expires In: {}", tokenResponse.getRefresh_token_expires_in());
+//            return tokenResponse;
+            return tokenResponse.getAccess_token();
         } else {
-            log.error("Failed to retrieve Kakao access token. Status code: {}", response.getStatusCode());
-            throw new RuntimeException("Failed to retrieve Kakao access token");
+            log.error("Failed to retrieve Kakao tokens. Status code: {}", response.getStatusCode());
+            throw new RuntimeException("Failed to retrieve Kakao tokens");
         }
+//        if (response.getStatusCode() == HttpStatus.OK) { //액세스 토큰만 받는 테스트1
+//            String accesstoken = Objects.requireNonNull(response.getBody()).getAccess_token();
+//            log.info("Successfully retrieved Kakao access token : {}", accesstoken);
+//            return Objects.requireNonNull(response.getBody()).getAccess_token();
+//        } else {
+//            log.error("Failed to retrieve Kakao access token. Status code: {}", response.getStatusCode());
+//            throw new RuntimeException("Failed to retrieve Kakao access token");
+//        }
     }
+
 //    private KakaoUserInfo getKakaoUserInfo(String accessToken) {
 //        String userInfoUrl = "https://kapi.kakao.com/v2/user/me";
 //
@@ -135,51 +148,13 @@ public class LoginController {
 //        return response.getBody();
 //    }
 
-//    @Getter
-//    @Setter
-//    private static class KakaoUserInfo {
-//        private Long id;
-//        private String connected_at;
-//        private Properties properties;
-//        private KakaoAccount kakao_account;
-//
-//        @Getter
-//        @Setter
-//        private static class Properties {
-//            private String nickname;
-//        }
-//
-//        @Getter
-//        @Setter
-//        private static class KakaoAccount {
-//            private Boolean profile_nickname_needs_agreement;
-//            private Boolean profile_image_needs_agreement;
-//            private Profile profile;
-//            private Boolean has_email;
-//            private Boolean email_needs_agreement;
-//            private Boolean is_email_valid;
-//            private Boolean is_email_verified;
-//            private String email;
-//
-//            @Getter
-//            @Setter
-//            private static class Profile {
-//                private String nickname;
-//                private String thumbnail_image_url;
-//                private String profile_image_url;
-//                private Boolean is_default_image;
-//            }
-//        }
-//    }
-
     @Getter
     @Setter
     private static class KakaoTokenResponse {
-        private String access_token;
         private String token_type;
-        private String refresh_token;
+        private String access_token;
         private int expires_in;
-//        private String scope;
+        private String refresh_token;
         private int refresh_token_expires_in;
     }
 }

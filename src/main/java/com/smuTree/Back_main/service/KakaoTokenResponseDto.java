@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+//Post로 받아온 json형태 토큰을 entity와 매핑시켜줌
 
 @Getter
 @NoArgsConstructor
