@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service //카카오와 관련없는 파일
 public class LoginService {
 
     @Autowired

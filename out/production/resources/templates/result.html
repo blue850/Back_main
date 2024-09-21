@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Result</title>
+</head>
+<body>
+<h2>Person Information</h2>
+<p th:text="'login_id: ' + ${login.login_id}"></p>
+<p th:text="'user_id: ' + ${login.user_id}"></p>
+<p th:text="'social_id: ' + ${login.social_id}"></p>
+<p th:text="'provider: ' + ${login.provider}"></p>
+</body>
+</html>
